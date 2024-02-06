@@ -1,0 +1,10 @@
+D:\BTKakademi\blockchainCoding\blockchainCoding\bin\Debug\blockchainCoding.exe.config
+D:\BTKakademi\blockchainCoding\blockchainCoding\bin\Debug\blockchainCoding.exe
+D:\BTKakademi\blockchainCoding\blockchainCoding\bin\Debug\blockchainCoding.pdb
+D:\BTKakademi\blockchainCoding\blockchainCoding\bin\Debug\Newtonsoft.Json.dll
+D:\BTKakademi\blockchainCoding\blockchainCoding\bin\Debug\Newtonsoft.Json.xml
+D:\BTKakademi\blockchainCoding\blockchainCoding\obj\Debug\blockchainCoding.csproj.AssemblyReference.cache
+D:\BTKakademi\blockchainCoding\blockchainCoding\obj\Debug\blockchainCoding.csproj.CoreCompileInputs.cache
+D:\BTKakademi\blockchainCoding\blockchainCoding\obj\Debug\blockchainCoding.csproj.CopyComplete
+D:\BTKakademi\blockchainCoding\blockchainCoding\obj\Debug\blockchainCoding.exe
+D:\BTKakademi\blockchainCoding\blockchainCoding\obj\Debug\blockchainCoding.pdb

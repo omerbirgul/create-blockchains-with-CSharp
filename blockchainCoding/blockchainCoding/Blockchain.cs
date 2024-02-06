@@ -12,6 +12,7 @@ namespace blockchainCoding
         public Blockchain() 
         {
             InitializeChain();
+            AddGenesisBlock();
         }
 
         public void InitializeChain()
