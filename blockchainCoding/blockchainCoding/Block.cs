@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace blockchainCoding
 {
-    internal class Block
+    public class Block
     {
         public int Index { get; set; }
         public DateTime TimeStamp { get; set; }
