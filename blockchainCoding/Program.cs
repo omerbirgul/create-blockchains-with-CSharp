@@ -7,36 +7,28 @@ using System.Threading.Tasks;
 
 namespace blockchainCoding
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
             Blockchain ourBlockchain = new Blockchain();
 
             DateTime startTime = DateTime.Now;
-            ourBlockchain.AddBlock(new Block(DateTime.Now, null, "{sender: Omer, receiver: Duygu, amount: 5}"));
-            ourBlockchain.AddBlock(new Block(DateTime.Now, null, "{sender: Micheal, receiver: Gustavo, amount: 50}"));
-            ourBlockchain.AddBlock(new Block(DateTime.Now, null, "{sender: Haaland, receiver: Sasha, amount: 10}"));
+            ourBlockchain.CreateTransaction(new Transaction("Omer", "Duygu", 5));
+            ourBlockchain.ProcessPendingTransactions("Ali");
+
+            ourBlockchain.CreateTransaction(new Transaction("Ufuk", "Enes", 10));
+            ourBlockchain.CreateTransaction(new Transaction("Test", "Mehmet", 8));
+            ourBlockchain.ProcessPendingTransactions("Ali");
 
             DateTime endTime = DateTime.Now;
             Console.WriteLine($"Hesaplamalar icin gerekli sure: {(startTime - endTime).ToString()}");
+            Console.WriteLine($"Omer balance: {ourBlockchain.GetBalance("Omer").ToString()}");
+            Console.WriteLine($"Enes balance: {ourBlockchain.GetBalance("Enes").ToString()}");
+            Console.WriteLine($"Ufuk balance: {ourBlockchain.GetBalance("Ufuk").ToString()}");
+            Console.WriteLine($"Ali balance: {ourBlockchain.GetBalance("Ali").ToString()}");
+
             Console.WriteLine(JsonConvert.SerializeObject(ourBlockchain,Formatting.Indented));
-            Console.WriteLine("blokchain gecerli mi? " + ourBlockchain.IsValid().ToString());
-            Console.WriteLine("Veri degistiriliyor...");
-
-            //Butun blokların hash'i degisti(%51 attack). degisim olunca gecerlilik true olur.
-
-            ourBlockchain.Chain[1].Hash = ourBlockchain.Chain[1].CalculateHash();
-
-            ourBlockchain.Chain[2].PreviousHash = ourBlockchain.Chain[1].Hash;
-            ourBlockchain.Chain[2].Hash = ourBlockchain.Chain[2].CalculateHash();
-
-            ourBlockchain.Chain[3].PreviousHash = ourBlockchain.Chain[2].Hash;
-            ourBlockchain.Chain[3].Hash = ourBlockchain.Chain[3].CalculateHash();
-
-            Console.WriteLine("blokchain gecerli mi? " + ourBlockchain.IsValid().ToString());
-
-
             Console.ReadKey();
         }
     }

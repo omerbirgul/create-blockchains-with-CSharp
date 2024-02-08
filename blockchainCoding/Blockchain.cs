@@ -59,10 +59,10 @@ namespace blockchainCoding
 
         public void ProcessPendingTransactions(string minerAdress)
         {
+            CreateTransaction(new Transaction(null, minerAdress, Reward));
             Block pendingBlock = new Block(DateTime.Now, GetLatestBlock().Hash, PendingTransactions);
             AddBlock(pendingBlock);
             PendingTransactions = new List <Transaction>();
-            CreateTransaction(new Transaction(null, minerAdress, Reward));
         }
 
         public bool IsValid()
@@ -81,6 +81,27 @@ namespace blockchainCoding
                 }
             }
             return true;
+        }
+
+        public int GetBalance(string adress)
+        {
+            int balance = 0;
+            for(int i = 0; i < Chain.Count; i++)
+            {
+                for (int j = 0; j < Chain[i].Transactions.Count; j++)
+                {
+                    var transaction = Chain[i].Transactions[j];
+                    if(transaction.SenderAdress == adress)
+                    {
+                        balance -= transaction.Amount;
+                    }
+                    if(transaction.ReceiverAdress == adress)
+                    {
+                        balance += transaction.Amount;
+                    }
+                }
+            }
+            return balance;
         }
     }
 }
