@@ -8,8 +8,10 @@ namespace blockchainCoding
 {
     public class Blockchain
     {
+        IList<Transaction> PendingTransactions = new List<Transaction>();
         public IList<Block> Chain { get; set; }
         public int difficulty { get; set; } = 2;
+        public int Reward { get; set; } = 1;
         public Blockchain() 
         {
             InitializeChain();
@@ -23,7 +25,11 @@ namespace blockchainCoding
 
         public Block CreateGenesisBlock()
         {
-            return new Block(DateTime.Now, null, "{}");
+            Block genesisBlock = new Block(DateTime.Now, null, PendingTransactions);
+            genesisBlock.Mine(difficulty);
+            PendingTransactions = new List<Transaction>();
+
+            return genesisBlock ;
         }
 
         public void AddGenesisBlock()
@@ -44,6 +50,19 @@ namespace blockchainCoding
             block.Hash = block.CalculateHash();
             block.Mine(this.difficulty);
             Chain.Add(block);
+        }
+
+        public void CreateTransaction(Transaction transaction)
+        {
+            PendingTransactions.Add(transaction);
+        }
+
+        public void ProcessPendingTransactions(string minerAdress)
+        {
+            Block pendingBlock = new Block(DateTime.Now, GetLatestBlock().Hash, PendingTransactions);
+            AddBlock(pendingBlock);
+            PendingTransactions = new List <Transaction>();
+            CreateTransaction(new Transaction(null, minerAdress, Reward));
         }
 
         public bool IsValid()
