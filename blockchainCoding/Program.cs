@@ -11,26 +11,69 @@ namespace blockchainCoding
     {
         public static Blockchain ourBlockchain = new Blockchain();
         public static int Port = 0;
+        public static P2PClient Client = new P2PClient();
+        public static P2PServer Server = null;
+        public static string name = "Unknown";
         static void Main(string[] args)
         {
-            
-
             DateTime startTime = DateTime.Now;
-            ourBlockchain.CreateTransaction(new Transaction("Omer", "Duygu", 5));
-            ourBlockchain.ProcessPendingTransactions("Ali");
+            ourBlockchain.InitializeChain();
+            if(args.Length >= 1)
+            {
+                Port = int.Parse(args[0]);
+            }
+            if(args.Length >= 2)
+            {
+                name = args[1];
+            }
+            if(Port > 0)
+            {
+                Server = new P2PServer();
+                Server.Start();
+            }
+            if(name != "Unknown")
+            {
+                Console.WriteLine($"Su anki kullanici: {name}");
+            }
 
-            ourBlockchain.CreateTransaction(new Transaction("Ufuk", "Enes", 10));
-            ourBlockchain.CreateTransaction(new Transaction("Test", "Mehmet", 8));
-            ourBlockchain.ProcessPendingTransactions("Ali");
+            Console.WriteLine("**************************");
+            Console.WriteLine("1. Server'a baglan");
+            Console.WriteLine("2. Trabsaction ekle");
+            Console.WriteLine("3. Blockchain'i göster");
+            Console.WriteLine("4. Cikis");
+            Console.WriteLine("**************************");
 
-            DateTime endTime = DateTime.Now;
-            Console.WriteLine($"Hesaplamalar icin gerekli sure: {(startTime - endTime).ToString()}");
-            Console.WriteLine($"Omer balance: {ourBlockchain.GetBalance("Omer").ToString()}");
-            Console.WriteLine($"Enes balance: {ourBlockchain.GetBalance("Enes").ToString()}");
-            Console.WriteLine($"Ufuk balance: {ourBlockchain.GetBalance("Ufuk").ToString()}");
-            Console.WriteLine($"Ali balance: {ourBlockchain.GetBalance("Ali").ToString()}");
+            int selection = 0;
+            while(selection != 4)
+            {
+                switch (selection)
+                {
+                    case 1:
+                        Console.WriteLine("Lutfen Server URL Girin:");
+                        string serverURL = Console.ReadLine();
+                        Client.Connect($"{serverURL}/Blockchain");
+                        break;
+                    case 2:
+                        Console.WriteLine("Lutfen Alici Adi Girin:");
+                        string receiverName = Console.ReadLine();
+                        Console.WriteLine("Miktari Girin:");
+                        string amount = Console.ReadLine();
+                        ourBlockchain.CreateTransaction(new Transaction(name, receiverName, int.Parse(amount)));
+                        ourBlockchain.ProcessPendingTransactions(name);
+                        Client.Broadcast(JsonConvert.SerializeObject(ourBlockchain));
+                        break;
+                    case 3:
+                        Console.WriteLine("Blockchain");
+                        Console.WriteLine(JsonConvert.SerializeObject(ourBlockchain, Formatting.Indented));
+                        break;
+                }
 
-            Console.WriteLine(JsonConvert.SerializeObject(ourBlockchain,Formatting.Indented));
+                Console.WriteLine("Lutfen bir secenek secin");
+                String action = Console.ReadLine();
+                selection = int.Parse(action);
+            }
+
+            Client.Close();
             Console.ReadKey();
         }
     }
