@@ -8,7 +8,7 @@ namespace blockchainCoding
 {
     public class Blockchain
     {
-        IList<Transaction> PendingTransactions = new List<Transaction>();
+        public IList<Transaction> PendingTransactions = new List<Transaction>();
         public IList<Block> Chain { get; set; }
         public int difficulty { get; set; } = 2;
         public int Reward { get; set; } = 1;

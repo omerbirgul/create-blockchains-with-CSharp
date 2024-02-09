@@ -9,9 +9,10 @@ namespace blockchainCoding
 {
     public class Program
     {
+        public static Blockchain ourBlockchain = new Blockchain();
         static void Main(string[] args)
         {
-            Blockchain ourBlockchain = new Blockchain();
+            
 
             DateTime startTime = DateTime.Now;
             ourBlockchain.CreateTransaction(new Transaction("Omer", "Duygu", 5));
