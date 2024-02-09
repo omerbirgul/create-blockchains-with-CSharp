@@ -41,7 +41,7 @@ namespace blockchainCoding
                 };
 
                 ws.Connect();
-                ws.Send("Merhaba Client");
+                ws.Send("Merhaba Server");
                 ws.Send(JsonConvert.SerializeObject(Program.ourBlockchain));
                 wsDictionary.Add(url, ws);
             }

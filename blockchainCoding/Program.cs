@@ -10,6 +10,7 @@ namespace blockchainCoding
     public class Program
     {
         public static Blockchain ourBlockchain = new Blockchain();
+        public static int Port = 0;
         static void Main(string[] args)
         {
             
